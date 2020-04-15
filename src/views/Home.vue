@@ -24,32 +24,43 @@ export default {
   },
   methods: {
     deleteTodo(id) {
-      axios
-        .delete(`http://jsonplaceholder.typicode.com/todos/${id}`)
-        .then(
-          res =>
-            (this.todos = this.todos.filter(todo => todo.id !== id, res.data))
-        )
-        .catch(err => console.log(err));
-    },
+      // axios
+      //   .delete(`http://jsonplaceholder.typicode.com/todos/${id}`)
+      //   .then(
+      //     res =>
+      //       (this.todos = this.todos.filter(todo => todo.id !== id, res.data))
+      //   )
+      //   .catch(err => console.log(err));
 
+      for (let i = 0; i < this.todos.length; i++) {
+        if (this.todos[i].id == id) {
+          this.todos.splice(i, 1);
+          break;
+        }
+      }
+    },
     addTodo(newTodo) {
       const { title, completed } = newTodo;
+      this.todos.push({ title, completed });
 
-      axios
-        .post("http://jsonplaceholder.typicode.com/todos", {
-          title,
-          completed
-        })
-        .then(res => (this.todos = [...this.todos, res.data]))
-        .catch(err => console.log(err));
+      // axios
+      //   .post("http://jsonplaceholder.typicode.com/todos", {
+      //     title,
+      //     completed
+      //   })
+      //   .then(res => (this.todos = [...this.todos, res.data]))
+      //   .catch(err => console.log(err));
     }
   },
   created() {
     axios
-      .get("http://jsonplaceholder.typicode.com/todos?_limit=5")
-      .then(res => (this.todos = res.data))
+      .get("todos.json")
+      .then(res => (this.todos = res.data.todos))
       .catch(err => console.log(err));
+
+    // .get("http://jsonplaceholder.typicode.com/todos?_limit=5")
+    // .then(res => (this.todos = res.data))
+    // .catch(err => console.log(err));
   }
 };
 </script>
